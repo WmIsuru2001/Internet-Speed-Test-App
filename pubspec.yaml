@@ -37,6 +37,8 @@ dependencies:
   percent_indicator: ^4.2.5
   syncfusion_flutter_gauges: ^33.2.15
 
+  flutter_internet_speed_test: ^1.5.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
