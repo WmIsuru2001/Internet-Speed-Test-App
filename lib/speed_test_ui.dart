@@ -1,8 +1,9 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_internet_speed_test/flutter_internet_speed_test.dart';
+import 'package:internet_speed_test_app/widgets/meter_card.dart';
+import 'package:internet_speed_test_app/widgets/reuserble/value_dis_card.dart';
 import 'package:percent_indicator/flutter_percent_indicator.dart';
-import 'package:syncfusion_flutter_gauges/gauges.dart';
 
 class SpeedTestUi extends StatefulWidget {
   const SpeedTestUi({super.key});
@@ -51,7 +52,11 @@ class _SpeedTestUiState extends State<SpeedTestUi> {
         centerTitle: true,
         title: const Text(
           'Speed Test',
-          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+            fontSize: 25,
+          ),
         ),
       ),
       body: SafeArea(
@@ -71,67 +76,9 @@ class _SpeedTestUiState extends State<SpeedTestUi> {
                       SizedBox(
                         height: 260,
 
-                        child: SfRadialGauge(
-                          axes: [
-                            RadialAxis(
-                              radiusFactor: 0.99,
-                              minorTicksPerInterval: 1,
-                              tickOffset: 2,
-                              useRangeColorForAxis: true,
-                              interval: 5,
-                              minimum: 0,
-                              maximum: 100,
-                              axisLabelStyle: GaugeTextStyle(
-                                color: const Color.fromARGB(255, 211, 18, 18),
-                              ),
-                              ranges: [
-                                GaugeRange(
-                                  color: Color.fromARGB(255, 30, 244, 255),
-                                  startValue: 0,
-                                  endValue: 100,
-                                  startWidth: 10,
-                                  endWidth: 10,
-                                ),
-                              ],
-                              pointers: [
-                                RangePointer(
-                                  value: displayRate,
-                                  width: 10,
-                                  color: Colors.orange,
-                                  enableAnimation: true,
-                                ),
-                                NeedlePointer(
-                                  value: displayRate,
-                                  enableAnimation: true,
-                                  needleColor: Colors.orange,
-                                  tailStyle: TailStyle(
-                                    color: Colors.white,
-                                    borderWidth: 0.1,
-                                    borderColor: Colors.blue,
-                                  ),
-                                  knobStyle: KnobStyle(
-                                    color: Colors.white,
-                                    borderColor: Colors.red,
-                                    borderWidth: 0.01,
-                                  ),
-                                ),
-                              ],
-                              annotations: [
-                                GaugeAnnotation(
-                                  widget: Text(
-                                    displayRate.toStringAsFixed(2) + unitText,
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 20,
-                                    ),
-                                  ),
-                                  angle: 85,
-                                  positionFactor: 0.7,
-                                ),
-                              ],
-                            ),
-                          ],
+                        child: MeterCard(
+                          displayRate: displayRate,
+                          unitText: unitText,
                         ),
                       ),
                       const SizedBox(height: 20),
@@ -155,70 +102,20 @@ class _SpeedTestUiState extends State<SpeedTestUi> {
                 const SizedBox(height: 25),
                 Row(
                   children: [
-                    Expanded(
-                      child: Container(
-                        padding: const EdgeInsets.all(18),
-                        decoration: BoxDecoration(
-                          color: Colors.white.withValues(alpha: .08),
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        child: Column(
-                          children: [
-                            const Icon(
-                              Icons.download,
-                              color: Colors.greenAccent,
-                              size: 35,
-                            ),
-                            const SizedBox(height: 10),
-                            const Text(
-                              'Download',
-                              style: TextStyle(color: Colors.white70),
-                            ),
-                            const SizedBox(height: 8),
-                            Text(
-                              '${_downloadRate.toStringAsFixed(2)} $unitText',
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 20,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
+                    ValueDisCard(
+                      value: _downloadRate,
+                      unitText: unitText,
+                      name: 'Download',
+                      icon: Icons.download,
+                      iconColor: Colors.cyan,
                     ),
                     const SizedBox(width: 15),
-                    Expanded(
-                      child: Container(
-                        padding: const EdgeInsets.all(18),
-                        decoration: BoxDecoration(
-                          color: Colors.white.withValues(alpha: .08),
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        child: Column(
-                          children: [
-                            const Icon(
-                              Icons.upload,
-                              color: Colors.orange,
-                              size: 35,
-                            ),
-                            const SizedBox(height: 10),
-                            const Text(
-                              'Upload',
-                              style: TextStyle(color: Colors.white70),
-                            ),
-                            const SizedBox(height: 8),
-                            Text(
-                              '${_uploadRate.toStringAsFixed(2)} $unitText',
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 20,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
+                    ValueDisCard(
+                      value: _uploadRate,
+                      unitText: unitText,
+                      name: 'Upload',
+                      icon: Icons.upload,
+                      iconColor: Colors.orange,
                     ),
                   ],
                 ),
